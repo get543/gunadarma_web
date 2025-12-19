@@ -1,49 +1,53 @@
-name: Build and Release APK
+name: Flutter Build and Release
 
 on:
   push:
-    branches:
-      - master
+    branches: [ "master" ]
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out the code
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # 2. Set up Java (required for Android builds)
+      # 1. Extract Version from pubspec.yaml
+      - name: Get version from pubspec
+        id: pubspec_version
+        run: |
+          # This line finds 'version: 1.0.0+1' and extracts '1.0.0+1'
+          VERSION=$(grep 'version:' pubspec.yaml | sed 's/version: //')
+          echo "tag_name=v$VERSION" >> $GITHUB_OUTPUT
+          echo "display_version=$VERSION" >> $GITHUB_OUTPUT
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      # 3. Set up Flutter
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x' # Uses the latest stable 3.x version
           channel: 'stable'
 
-      # 4. Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 5. Build the APK
-      # Note: This builds an unsigned "release" APK. 
       - name: Build APK
         run: flutter build apk --release
 
-      # 6. Create a Release and Upload the APK
-      - name: Push to Releases
+      # 2. Create Release using the extracted version
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
+          # Uses the version we found in step 1
+          tag_name: ${{ steps.pubspec_version.outputs.tag_name }}
+          name: Release ${{ steps.pubspec_version.outputs.display_version }}
           files: build/app/outputs/flutter-apk/app-release.apk
-          tag_name: v${{ github.run_number }}
-          name: Release ${{ github.run_number }}
           draft: false
           prerelease: false
         env:
