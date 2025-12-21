@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -21,12 +23,15 @@ class _CommonWebViewState extends State<CommonWebView> {
   InAppWebViewSettings? _webViewSettings;
   InAppWebViewController? _webViewController;
 
+  double _progress = 0;
+
   @override
   void initState() {
     super.initState();
     _initSettings();
   }
 
+  //! --- WEBVIEW SETTINGS
   Future<void> _initSettings() async {
     // Check if the App is currently in Dark Mode
     final isDarkMode =
@@ -130,7 +135,9 @@ class _CommonWebViewState extends State<CommonWebView> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Downloading ${request.suggestedFilename ?? "file"}...'),
+          content: Text(
+            'Downloading ${request.suggestedFilename ?? "file"}...',
+          ),
           duration: const Duration(seconds: 2),
         ),
       );
@@ -234,33 +241,58 @@ class _CommonWebViewState extends State<CommonWebView> {
           ),
         ],
       ),
-      body: InAppWebView(
-        initialUrlRequest: URLRequest(url: WebUri(widget.url)),
-        initialSettings: _webViewSettings,
-        onWebViewCreated: (controller) {
-          _webViewController = controller;
+      body: Stack(
+        children: [
+          InAppWebView(
+            initialUrlRequest: URLRequest(url: WebUri(widget.url)),
+            initialSettings: _webViewSettings,
 
-          // CRITICAL: Explicitly set background color to black via native controller
-          // This helps the "Algorithmic Darkening" realize the background is already dark.
-          if (Platform.isAndroid) {
-            controller.setBackgroundColor(color: backgroundColor);
-          }
-        },
-        onReceivedServerTrustAuthRequest: (controller, challenge) async {
-          debugPrint(
-            "SSL Error detected for: ${challenge.protectionSpace.host}",
-          );
+            onWebViewCreated: (controller) {
+              _webViewController = controller;
 
-          // ACTION: Trust the certificate effectively ignoring the error.
-          // WARNING: This makes the connection susceptible to Man-in-the-Middle attacks.
-          // Only use this if you trust the website.
-          return ServerTrustAuthResponse(
-            action: ServerTrustAuthResponseAction.PROCEED,
-          );
-        },
-        onDownloadStartRequest: (controller, request) {
-          _downloadFile(request);
-        },
+              // CRITICAL: Explicitly set background color to black via native controller
+              // This helps the "Algorithmic Darkening" realize the background is already dark.
+              if (Platform.isAndroid) {
+                controller.setBackgroundColor(color: backgroundColor);
+              }
+            },
+
+            // This callback gives you an integer from 0 to 100
+            onProgressChanged: (controller, progress) {
+              setState(() {
+                _progress = progress / 100; // Convert 0-100 to 0.0-1.0
+              });
+            },
+
+            // Ignore SSL Error
+            onReceivedServerTrustAuthRequest: (controller, challenge) async {
+              debugPrint(
+                "SSL Error detected for: ${challenge.protectionSpace.host}",
+              );
+
+              // ACTION: Trust the certificate effectively ignoring the error.
+              // WARNING: This makes the connection susceptible to Man-in-the-Middle attacks.
+              // Only use this if you trust the website.
+              return ServerTrustAuthResponse(
+                action: ServerTrustAuthResponseAction.PROCEED,
+              );
+            },
+
+            // Download request started
+            onDownloadStartRequest: (controller, request) {
+              _downloadFile(request);
+            },
+          ),
+
+          // Only show if progress is less than 1.0 (100%)
+          if (_progress < 1.0)
+            LinearProgressIndicator(
+              value: _progress,
+              // color: ColorSpace("#753996"), // Match your previous color
+              color: const Color(0xFF753996),
+              backgroundColor: Colors.transparent,
+            ),
+        ],
       ),
     );
   }

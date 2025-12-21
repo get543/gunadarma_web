@@ -64,6 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
       imageUrl: "images/webIcon/gunadarma_icon.png",
     ),
     LinkItem(
+      title: 'UGTV',
+      url: "https://ugtv.co.id",
+      imageUrl: "images/webIcon/ugtv_icon.png",
+    ),
+    LinkItem(
       title: 'V-Class',
       url: "https://v-class.gunadarma.ac.id",
       imageUrl: "images/webIcon/vclass_icon.png",
