@@ -194,7 +194,7 @@ class _CommonWebViewState extends State<CommonWebView> {
                       const SnackBar(
                         duration: Duration(milliseconds: 200),
                         content: Text(
-                          'Can\'t go back',
+                          "Can't go back",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -217,7 +217,7 @@ class _CommonWebViewState extends State<CommonWebView> {
                       const SnackBar(
                         duration: Duration(milliseconds: 200),
                         content: Text(
-                          'No forward history item',
+                          "No forward history item",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -297,5 +297,5 @@ class _CommonWebViewState extends State<CommonWebView> {
 }
 
 extension on InAppWebViewController {
-  void setBackgroundColor({required Color color}) {}
+  void setBackgroundColor({ required Color color }) {}
 }
