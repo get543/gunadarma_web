@@ -1,4 +1,3 @@
-
 // Data model for each navigation item
 class LinkItem {
   final String title;

@@ -1,0 +1,127 @@
+import 'package:flutter/material.dart';
+import 'package:gunadarma_web/class/common_webview.dart';
+import 'package:gunadarma_web/class/link_item.dart';
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  // --- Create the list of data ---
+  final List<LinkItem> _linkItems = const [
+    LinkItem(
+      title: 'Gunadarma Home',
+      url: "https://gunadarma.ac.id",
+      imageUrl: "images/webIcon/gunadarma_icon.png",
+    ),
+    LinkItem(
+      title: 'V-Class',
+      url: "https://v-class.gunadarma.ac.id",
+      imageUrl: "images/webIcon/vclass_icon.png",
+    ),
+    LinkItem(
+      title: 'Praktikum iLab',
+      url: "https://praktikum.gunadarma.ac.id",
+      imageUrl: "images/webIcon/ilab_icon.png",
+    ),
+    LinkItem(
+      title: 'Praktikum IFLab',
+      url: "https://praktikum-iflab.gunadarma.ac.id",
+      imageUrl: "images/webIcon/iflab_icon.png",
+    ),
+    LinkItem(
+      title: 'StudentSite',
+      url: "https://studentsite.gunadarma.ac.id/index.php/site/login",
+      imageUrl: "images/webIcon/studentsite_icon.png",
+    ),
+    LinkItem(
+      title: 'BAAK',
+      url: "https://baak.gunadarma.ac.id",
+      imageUrl: "images/webIcon/baak_icon.png",
+    ),
+    LinkItem(
+      title: 'VM Lepkom',
+      url: "https://vm.lepkom.gunadarma.ac.id/",
+      imageUrl: "images/webIcon/lepkom_icon.png",
+    ),
+    LinkItem(
+      title: 'UGTV',
+      url: "https://ugtv.co.id",
+      imageUrl: "images/webIcon/ugtv_icon.png",
+    ),
+    LinkItem(
+      title: 'NVIDIA DGX',
+      url: "https://hypercomputation-hub.gunadarma.ac.id/",
+      imageUrl: "images/webIcon/dgx100_icon.png",
+    ),
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: ListView.builder(
+        // Add some padding around the ListView
+        padding: const EdgeInsets.all(12.0),
+        itemCount: _linkItems.length,
+        itemBuilder: (context, index) {
+          final item = _linkItems[index];
+          return Card(
+            elevation: 4.0,
+            margin: const EdgeInsets.symmetric(vertical: 8.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15.0),
+            ),
+            child: InkWell( // Makes the whole card tappable
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => CommonWebView(
+                      url: item.url,
+                      title: item.title,
+                    ),
+                  ),
+                );
+              },
+              borderRadius: BorderRadius.circular(15.0), // Match the card's shape
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 30.0,
+                      // Use NetworkImage for web URLs or AssetImage for local assets
+                      // backgroundImage: NetworkImage(item.imageUrl),
+                      backgroundImage: AssetImage(item.imageUrl),
+                      // Optional: Add a fallback background color
+                      backgroundColor: Colors.grey.shade200,
+                    ),
+                    const SizedBox(width: 20.0),
+                    // Use Flexible to prevent text overflow
+                    Flexible(
+                      child: Text(
+                        item.title,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
