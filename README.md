@@ -1,6 +1,22 @@
 # gunadarma_web
 
-Renders Gunadarma website's using webview
+Renders Gunadarma's website using webview
+
+## Screenshot
+
+### Main UI
+
+Dark Mode                  |  Light Mode
+:-------------------------:|:-------------------------:
+![Main Page Screenshot](./images/screenshots/UI%20Screenshot.png) | ![Light Mode Screenshot](./images/screenshots/Light%20Mode%20Screenshot.png)
+
+
+### Webview
+
+Dark Mode                  |  Light Mode
+:-------------------------:|:-------------------------:
+![Webview Screenshot](./images/screenshots/Webview%20Screenshot.png) | ![Light Mode Webview Screenhost](./images/screenshots/Light%20Mode%20Webview%20Screenshot.png)
+
 
 ## Getting Started
 
