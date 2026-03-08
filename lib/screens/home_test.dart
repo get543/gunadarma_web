@@ -21,12 +21,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Padding( // Add padding around the AppBar.
-              padding: const EdgeInsets.all(20), // Adjust padding as needed
+              padding: const EdgeInsets.all(12.0), // Adjust padding as needed
               child: AppBar(
                 // Use clipBehavior to make the corners rounded.
                 clipBehavior: Clip.antiAlias,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15), // Makes the AppBar rounded
+                  borderRadius: BorderRadius.circular(15.0), // Makes the AppBar rounded
                 ),
                 title: Text(widget.title),
                 actions: [
@@ -47,7 +47,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: ListView.builder(
                 // The main padding is now on the Column, but you can keep some here if you like.
-                // padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.all(20.0),
                 itemCount: linkItems.length,
                 itemBuilder: (context, index) {
                   final item = linkItems[index];
