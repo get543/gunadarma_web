@@ -7,7 +7,8 @@
     <application
         android:label="gunadarma_web"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
 
         <!-- Setup Flutter Downloader (Required) -->
         <provider

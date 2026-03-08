@@ -1,10 +1,10 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:io';
-
 import 'package:permission_handler/permission_handler.dart';
 
 class CommonWebView extends StatefulWidget {
@@ -83,6 +83,9 @@ class _CommonWebViewState extends State<CommonWebView> {
 
         // Allow downloads to trigger
         useOnDownloadStart: true,
+
+        // Allow mixed content (http on https sites)
+        mixedContentMode: MixedContentMode.MIXED_CONTENT_ALWAYS_ALLOW,
       );
     });
   }
@@ -286,7 +289,6 @@ class _CommonWebViewState extends State<CommonWebView> {
           if (_progress < 1.0)
             LinearProgressIndicator(
               value: _progress,
-              // color: ColorSpace("#753996"), // Match your previous color
               color: const Color(0xFF753996),
               backgroundColor: Colors.transparent,
             ),
