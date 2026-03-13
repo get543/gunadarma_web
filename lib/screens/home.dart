@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gunadarma_web/screens/common_webview.dart';
-
-import 'list_websites.dart';
+import 'package:gunadarma_web/constants/list_websites.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});

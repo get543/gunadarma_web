@@ -1,7 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gunadarma_web/screens/common_webview.dart';
-
-import 'list_websites.dart';
+import 'package:gunadarma_web/constants/list_websites.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -35,7 +35,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       IconButton(
                         icon: const Icon(Icons.add),
                         onPressed: () async {
-                          print("you clicked add");
+                          if (kDebugMode) {
+                            print("you clicked add");
+                          }
                         }
                       ),
                     ],

@@ -123,7 +123,6 @@ class _CommonWebViewState extends State<CommonWebView> {
     // 1. Check Permissions
     bool hasPermission = await _checkPermission();
     if (!hasPermission) {
-      // Show simple toast if permission denied
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Permission denied. Cannot download.')),
@@ -144,19 +143,51 @@ class _CommonWebViewState extends State<CommonWebView> {
       );
     }
 
-    // 3. Start the Download (System Notification handles "Finished")
+    // 3. CRITICAL FIX: Extract Cookies from WebView
+    // Without this, the downloader doesn't know you are logged in,
+    // and downloads the HTML login page instead of the actual file.
+    final cookieManager = CookieManager.instance();
+    final cookies = await cookieManager.getCookies(url: request.url);
+
+    String cookieString = '';
+    for (var cookie in cookies) {
+      cookieString += '${cookie.name}=${cookie.value}; ';
+    }
+
+    // --- UPDATED HEADERS SECTION ---
+    final Map<String, String> headers = {};
+
+    if (cookieString.isNotEmpty) {
+      headers['Cookie'] = cookieString;
+    }
+
+    // CRITICAL FIX: Use the exact User-Agent from the WebView request
+    // This prevents Cloudflare from blocking the request (403 Forbidden)
+    if (request.userAgent != null) {
+      headers['User-Agent'] = request.userAgent!;
+    }
+
+    // Add a Referer header (Strict servers like Laravel often demand this)
+    headers['Referer'] = request.url.toString();
+
+    // Add standard Accept headers so the server knows we are acting like a browser
+    headers['Accept'] = 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8';
+    // --------------------------------
+
+    // 4. Start the Download
     Directory? externalDir = await getExternalStorageDirectory();
+
+    String fileName = request.suggestedFilename ?? "downloaded_file_${DateTime.now().millisecondsSinceEpoch}";
 
     await FlutterDownloader.enqueue(
       url: request.url.toString(),
       savedDir: externalDir!.path,
-      fileName: request.suggestedFilename,
+      fileName: fileName,
+      headers: headers, // Pass the dynamically built headers here
 
-      // These flags enable the System Notification
-      showNotification: true, // Shows progress bar
-      openFileFromNotification: true, // Click to open when done
+      showNotification: true,
+      openFileFromNotification: true,
       saveInPublicStorage: true,
-
       allowCellular: true,
     );
   }
