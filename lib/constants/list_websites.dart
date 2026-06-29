@@ -38,6 +38,11 @@ List<LinkItem> linkItems = [
     imageUrl: "images/webIcon/lepkom_icon.png",
   ),
   LinkItem(
+    title: 'VM Lepkom Moodle',
+    url: "172.18.18.34",
+    imageUrl: "images/webIcon/lepkom_icon.png",
+  ),
+  LinkItem(
     title: 'UGTV',
     url: "https://ugtv.co.id",
     imageUrl: "images/webIcon/ugtv_icon.png",
