@@ -9,8 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await FlutterDownloader.initialize(
-      debug: true,
-      ignoreSsl: true // Set to true if specific website has SSL issues!
+    debug: true,
+    ignoreSsl: true, // Set to true if specific website has SSL issues!
   );
   runApp(const MyApp());
 }
@@ -46,4 +46,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

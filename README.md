@@ -2,6 +2,11 @@
 
 Renders Gunadarma's website using webview
 
+## 👇 Click to Download
+
+[![Click Here To Download](https://img.shields.io/badge/Download_APK-2EA043?style=for-the-badge&logo=android&logoColor=white)](https://github.com/get543/gunadarma_web/releases/latest/download/app-release.apk)
+
+
 ## Screenshot
 
 ### Main UI

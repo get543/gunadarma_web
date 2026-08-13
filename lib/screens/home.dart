@@ -33,11 +33,12 @@ class _MyHomePageState extends State<MyHomePage> {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15.0),
             ),
-            child: InkWell( // Makes the whole card tappable
+            child: InkWell(
+              // Makes the whole card tappable
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
+                  MaterialPageRoute<void>(
                     builder: (context) => CommonWebView(
                       url: item.url,
                       title: item.title,
@@ -79,4 +80,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

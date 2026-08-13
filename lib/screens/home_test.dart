@@ -17,10 +17,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       // Build the UI in a Column.
-      body: SafeArea( // Ensures content is not obscured by system UI (like notches).
+      body: SafeArea(
+        // Ensures content is not obscured by system UI (like notches).
         child: Column(
           children: [
-            Padding( // Add padding around the AppBar.
+            Padding(
+              // Add padding around the AppBar.
               padding: const EdgeInsets.all(12.0), // Adjust padding as needed
               child: AppBar(
                 // Use clipBehavior to make the corners rounded.
@@ -38,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           if (kDebugMode) {
                             print("you clicked add");
                           }
-                        }
+                        },
                       ),
                     ],
                   ),
@@ -59,13 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    child: InkWell( // Makes the whole card tappable
+                    child: InkWell(
+                      // Makes the whole card tappable
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                CommonWebView(url: item.url, title: item.title),
+                          MaterialPageRoute<void>(
+                            builder: (context) => CommonWebView(url: item.url, title: item.title),
                           ),
                         );
                       },

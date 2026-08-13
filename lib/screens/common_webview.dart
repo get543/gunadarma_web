@@ -32,9 +32,7 @@ class _CommonWebViewState extends State<CommonWebView> {
   //! --- WEBVIEW SETTINGS
   Future<void> _initSettings() async {
     // Check if the App is currently in Dark Mode
-    final isDarkMode =
-        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-        Brightness.dark;
+    final isDarkMode = WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark;
 
     // Default settings (Safe fallback)
     bool useAlgorithmic = false;
@@ -195,9 +193,7 @@ class _CommonWebViewState extends State<CommonWebView> {
   @override
   Widget build(BuildContext context) {
     // Determine background color based on theme to prevent white flashes
-    final backgroundColor =
-        WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-            Brightness.dark
+    final backgroundColor = WidgetsBinding.instance.platformDispatcher.platformBrightness == Brightness.dark
         ? Colors.black
         : Colors.white;
 
@@ -330,5 +326,5 @@ class _CommonWebViewState extends State<CommonWebView> {
 }
 
 extension on InAppWebViewController {
-  void setBackgroundColor({ required Color color }) {}
+  void setBackgroundColor({required Color color}) {}
 }
