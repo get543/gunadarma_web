@@ -1,4 +1,4 @@
-package gunadarma.ac.id.gunadarma_web
+package id.ac.gunadarma.webapp
 
 import io.flutter.embedding.android.FlutterActivity
 
